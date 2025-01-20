@@ -5,20 +5,20 @@ class Menu extends Phaser.Scene {
 
     preload() {
         //load images/tile sprites
-        this.load.image("rocket", "./../../assets/rocket.png");
-        this.load.image("spaceship", "./../../assets/spaceship.png");
-        this.load.image("starfield", "./../../assets/starfield.png");
+        this.load.image("rocket", "./assets/rocket.png");
+        this.load.image("spaceship", "./assets/spaceship.png");
+        this.load.image("starfield", "./assets/starfield.png");
 
-        this.load.spritesheet("explosion", "./../../assets/explosion.png", {
+        this.load.spritesheet("explosion", "./assets/explosion.png", {
             frameWidth: 64,
             frameHeight: 32,
             startFrame: 0,
             endFrame: 9,
         });
 
-        this.load.audio("sfx-select", "./../../assets/sfx-select.wav");
-        this.load.audio("sfx-explosion", "./../../assets/sfx-explosion.wav");
-        this.load.audio("sfx-shot", "./../../assets/sfx-shot.wav");
+        this.load.audio("sfx-select", "./assets/sfx-select.wav");
+        this.load.audio("sfx-explosion", "./assets/sfx-explosion.wav");
+        this.load.audio("sfx-shot", "./assets/sfx-shot.wav");
     }
 
     create() {
