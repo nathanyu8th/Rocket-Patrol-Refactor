@@ -79,6 +79,10 @@ class Menu extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.RIGHT
         );
+
+        
+
+
     }
 
     update() {

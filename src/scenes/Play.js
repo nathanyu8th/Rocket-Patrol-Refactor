@@ -4,6 +4,11 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
+        /**
+         * REFERENCED PARTICLE EXPLOSION CODE FROM PHASER WEBSITE
+         * https://labs.phaser.io/index.html?dir=game%20objects/particle%20emitter/&q=
+         */
         //place tile sprite
         this.starfield = this.add
             .tileSprite(
@@ -188,6 +193,14 @@ class Play extends Phaser.Scene {
             null,
             this
         );
+
+        
+
+        // this.input.on('pointerdown', pointer => {
+
+        //     emitter.explode(16);
+
+        // });
     }
 
     update() {
@@ -274,5 +287,17 @@ class Play extends Phaser.Scene {
         this.scoreLeft.text = this.p1Score;
 
         this.sound.play("sfx-explosion");
+
+        const emitter = this.add.particles(ship.x, ship.y, 'rocket', {
+            
+            lifespan: 4000,
+            speed: { min: 150, max: 250 },
+            scale: { start: 0.8, end: 0 },
+            gravityY: 150,
+            blendMode: 'ADD',
+            emitting: false
+        });
+
+        emitter.explode(16);
     }
 }
