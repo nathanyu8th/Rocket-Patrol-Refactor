@@ -119,6 +119,19 @@ class Play extends Phaser.Scene {
             fixedWidth: 100,
         };
 
+        let timeConfig = {
+            fontFamily: "Courier",
+            fontSize: "28px",
+            backgroundColor: "#F3B141",
+            color: "#843605",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100,
+        };
+
         this.scoreLeft = this.add.text(
             borderUISize + borderPadding,
             borderUISize + borderPadding * 2,
@@ -126,7 +139,22 @@ class Play extends Phaser.Scene {
             scoreConfig
         );
 
+        this.timeLeft = this.add.text(
+            borderUISize + borderPadding * 15,
+            borderUISize + borderPadding * 2,
+            this.p1Score,
+            timeConfig
+        );
+
+        this.highScoreDisplay = this.add.text(
+            borderUISize + borderPadding * 28,
+            borderUISize + borderPadding * 2,
+            this.highScore,
+            timeConfig
+        );
+
         this.gameOver = false;
+        this.highScore = 0;
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
@@ -151,6 +179,11 @@ class Play extends Phaser.Scene {
                     )
                     .setOrigin(0.5);
                 this.gameOver = true;
+                
+                if (this.highScore < this.p1Score){
+                    this.highScore = this.p1Score;
+                }
+                this.highScoreDisplay.text = this.highScore
             },
             null,
             this
@@ -160,6 +193,13 @@ class Play extends Phaser.Scene {
     update() {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             this.scene.restart();
+        }
+
+        this.timeLeft.text = game.settings.gameTimer - this.clock.elapsed
+
+        if(this.p1Rocket.y <= borderUISize * 3 + borderPadding + 1){
+            //console.log("out of bounds")
+            this.clock.elapsed += 5000
         }
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
@@ -178,21 +218,28 @@ class Play extends Phaser.Scene {
             //console.log("kaboom ship 1");
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+            //console.log(this.clock.elapsed)
+            this.clock.elapsed -= 500
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             //console.log("kaboom ship 2");
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
+            //console.log(this.clock.elapsed)
+            this.clock.elapsed -= 500
         }
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             //console.log("kaboom ship 3");
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
+            //console.log(this.clock.elapsed)
+            this.clock.elapsed -= 500
         }
         if (this.checkCollision(this.p1Rocket, this.newShip01)) {
             //console.log("kaboom ship 3");
             this.p1Rocket.reset();
             this.shipExplode(this.newShip01);
+            this.clock.elapsed -= 500
         }
     }
 
@@ -211,6 +258,7 @@ class Play extends Phaser.Scene {
     shipExplode(ship) {
         //hide ship
         ship.alpha = 0;
+        //console.log(this.p1Rocket.y)
 
         //create explosion at ship
         let boom = this.add.sprite(ship.x, ship.y, "explosion").setOrigin(0, 0);
